@@ -12,7 +12,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        $profiles = Profile::all();
+        return view('profile.index', compact('profiles'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('profile.create');
     }
 
     /**
@@ -28,7 +29,12 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'sejarah'=>'required',
+            'latar_belakang'=>'required',
+        ]);
+        Profile::create($request->all());
+        return redirect()->route('profile.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -36,7 +42,7 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        return view('profile.show', compact('profile'));
     }
 
     /**
@@ -44,7 +50,7 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        //
+        return view('profile.edit', compact('profile'));
     }
 
     /**
@@ -52,7 +58,12 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        //
+        $request->validate([
+            'sejarah'=>'required',
+            'latar_belakang'=>'required',
+        ]);
+        $profile->update($request->all());
+        return redirect()->route('profile.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -60,6 +71,7 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        //
+        $profile->delete();
+        return redirect()->route('profile.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

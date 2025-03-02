@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organisasi extends Model
 {
-    //
+    protected $fillable = [
+        'nama',
+        'nip',
+        'jabatan',
+    ];
 }

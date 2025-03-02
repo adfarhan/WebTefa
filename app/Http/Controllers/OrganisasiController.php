@@ -12,7 +12,8 @@ class OrganisasiController extends Controller
      */
     public function index()
     {
-        //
+        $organisasis = Organisasi::all();
+        return view('organisasi.index', compact('organisasis'));
     }
 
     /**
@@ -20,7 +21,7 @@ class OrganisasiController extends Controller
      */
     public function create()
     {
-        //
+        return view('organisasi.create');
     }
 
     /**
@@ -28,7 +29,14 @@ class OrganisasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama'=>'required',
+            'nip'=>'required|max:20',
+            'jabatan'=>'required',
+
+        ]);
+        Organisasi::create($request->all());
+        return redirect()->route('organisasi.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -36,7 +44,7 @@ class OrganisasiController extends Controller
      */
     public function show(Organisasi $organisasi)
     {
-        //
+        return view('organisasi.show', compact('organisasi'));
     }
 
     /**
@@ -44,7 +52,7 @@ class OrganisasiController extends Controller
      */
     public function edit(Organisasi $organisasi)
     {
-        //
+        return view('organisasi.edit', compact('organisasi'));
     }
 
     /**
@@ -52,7 +60,14 @@ class OrganisasiController extends Controller
      */
     public function update(Request $request, Organisasi $organisasi)
     {
-        //
+        $request->validate([
+            'nama'=>'required',
+            'nip'=>'required|max:20',
+            'jabatan'=>'required',
+
+        ]);
+        $organisasi->update($request->all());
+        return redirect()->route('organisasi.index')->with('success', 'Data Berhasil Dihapus');
     }
 
     /**
@@ -60,6 +75,7 @@ class OrganisasiController extends Controller
      */
     public function destroy(Organisasi $organisasi)
     {
-        //
+        $organisasi->delete();
+        return redirect()->route('organisasi.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

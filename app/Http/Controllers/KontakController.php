@@ -12,7 +12,8 @@ class KontakController extends Controller
      */
     public function index()
     {
-        //
+        $kontaks = Kontak::all();
+        return view('kontak.index', compact('kontaks'));
     }
 
     /**
@@ -20,7 +21,7 @@ class KontakController extends Controller
      */
     public function create()
     {
-        //
+        return view('kontak.create');
     }
 
     /**
@@ -28,7 +29,18 @@ class KontakController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama'=>'required',
+            'email'=>'required',
+            'nomor_telepon'=>'required',
+            'instagram'=>'required',
+            'facebook'=>'required',
+            'twitter'=>'required',
+            'tiktok'=>'tiktok',
+            'youtube'=>'youtube',
+        ]);
+        Kontak::create($request->all());
+        return redirect()->route('kontak.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -36,7 +48,7 @@ class KontakController extends Controller
      */
     public function show(Kontak $kontak)
     {
-        //
+        return view('kontak.show', compact('kontak'));
     }
 
     /**
@@ -44,7 +56,7 @@ class KontakController extends Controller
      */
     public function edit(Kontak $kontak)
     {
-        //
+        return view('kontak.edit', compact('kontak'));
     }
 
     /**
@@ -52,7 +64,18 @@ class KontakController extends Controller
      */
     public function update(Request $request, Kontak $kontak)
     {
-        //
+        $request->validate([
+            'nama'=>'required',
+            'email'=>'required',
+            'nomor_telepon'=>'required',
+            'instagram'=>'required',
+            'facebook'=>'required',
+            'twitter'=>'required',
+            'tiktok'=>'tiktok',
+            'youtube'=>'youtube',
+        ]);
+        $kontak->update($request->all());
+        return redirect()->route('kontak.index')->with('success', 'Data berhasil diupdate');
     }
 
     /**
@@ -60,6 +83,7 @@ class KontakController extends Controller
      */
     public function destroy(Kontak $kontak)
     {
-        //
+        $kontak->delete();
+        return redirect()->route('kontak.index')->with('success', 'Data berhasil dihapus');
     }
 }

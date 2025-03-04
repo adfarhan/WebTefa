@@ -12,7 +12,8 @@ class BerandaController extends Controller
      */
     public function index()
     {
-        //
+        $berandas = Beranda::all();
+        return view('beranda.index', compact('berandas'));
     }
 
     /**
@@ -20,7 +21,7 @@ class BerandaController extends Controller
      */
     public function create()
     {
-        //
+        return view('beranda.create');
     }
 
     /**
@@ -28,7 +29,13 @@ class BerandaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'gambaran_umum'=>'required',
+            'keunggulan'=>'required',
+            'manfaat'=>'required',
+        ]);
+        Beranda::create($request->all());
+        return redirect()->route('beranda.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -36,7 +43,7 @@ class BerandaController extends Controller
      */
     public function show(Beranda $beranda)
     {
-        //
+        return view('beranda.show', compact('beranda'));
     }
 
     /**
@@ -44,7 +51,7 @@ class BerandaController extends Controller
      */
     public function edit(Beranda $beranda)
     {
-        //
+        return view('beranda.edit', compact('beranda'));
     }
 
     /**
@@ -52,7 +59,13 @@ class BerandaController extends Controller
      */
     public function update(Request $request, Beranda $beranda)
     {
-        //
+        $request->validate([
+            'gambaran_umum'=>'required',
+            'keunggulan'=>'required',
+            'manfaat'=>'required',
+        ]);
+        $beranda->update($request->all());
+        return redirect()->route('beranda.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -60,6 +73,7 @@ class BerandaController extends Controller
      */
     public function destroy(Beranda $beranda)
     {
-        //
+        $beranda->delete();
+        return redirect()->route('beranda.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

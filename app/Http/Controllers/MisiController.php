@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Misi;
+use App\Models\Visi;
 use Illuminate\Http\Request;
 
 class MisiController extends Controller
@@ -12,7 +13,8 @@ class MisiController extends Controller
      */
     public function index()
     {
-        //
+        $misis = Misi::all();
+        return view('misi.index', compact('misis'));
     }
 
     /**
@@ -20,7 +22,8 @@ class MisiController extends Controller
      */
     public function create()
     {
-        //
+        $visis = Visi::all();
+        return view('misi.create', compact('visi'));
     }
 
     /**
@@ -28,7 +31,12 @@ class MisiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'misi'=>'required',
+            'visi_id'=>'required|exists:visis,id',
+        ]);
+        Misi::create($request->all());
+        return redirect()->route('misi.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -36,7 +44,7 @@ class MisiController extends Controller
      */
     public function show(Misi $misi)
     {
-        //
+        return view('misi.show',compact('misi'));
     }
 
     /**
@@ -44,7 +52,8 @@ class MisiController extends Controller
      */
     public function edit(Misi $misi)
     {
-        //
+        $visi = Visi::all();
+        return view('misi.edit', compact('misi', 'visi'));
     }
 
     /**
@@ -52,7 +61,12 @@ class MisiController extends Controller
      */
     public function update(Request $request, Misi $misi)
     {
-        //
+        $request->validate([
+            'misi'=>'required',
+            'visi_id'=>'required|exists:visis,id',
+        ]);
+        $misi->update($request->all());
+        return redirect()->route('misi.index')->with('success', 'Data berhasil diupdate');
     }
 
     /**
@@ -60,6 +74,7 @@ class MisiController extends Controller
      */
     public function destroy(Misi $misi)
     {
-        //
+        $misi->delete();
+        return redirect()->route('misi.index')->with('success', 'Data berhasil dihapus');
     }
 }

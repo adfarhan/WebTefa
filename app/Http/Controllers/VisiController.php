@@ -12,7 +12,8 @@ class VisiController extends Controller
      */
     public function index()
     {
-        //
+        $visis = Visi::all();
+        return view('visi.index', compact('visis'));
     }
 
     /**
@@ -20,7 +21,7 @@ class VisiController extends Controller
      */
     public function create()
     {
-        //
+        return view('visi.create');
     }
 
     /**
@@ -28,7 +29,11 @@ class VisiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'visi' => 'required',
+        ]);
+        Visi::create($request->all());
+        return redirect()->route('visi.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -36,7 +41,7 @@ class VisiController extends Controller
      */
     public function show(Visi $visi)
     {
-        //
+        return view('visi.show', compact('visi'));
     }
 
     /**
@@ -44,7 +49,7 @@ class VisiController extends Controller
      */
     public function edit(Visi $visi)
     {
-        //
+        return view('visi.edit', compact('visi'));
     }
 
     /**
@@ -52,7 +57,11 @@ class VisiController extends Controller
      */
     public function update(Request $request, Visi $visi)
     {
-        //
+        $request->validate([
+            'visi' => 'required',
+        ]);
+        $visi->update($request->all());
+        return redirect()->route('visi.index')->with('success', 'Data berhasil diupdate');
     }
 
     /**
@@ -60,6 +69,7 @@ class VisiController extends Controller
      */
     public function destroy(Visi $visi)
     {
-        //
+        $visi->delete();
+        return redirect()->route('visi.index')->with('success', 'Data berhasil dihapus');
     }
 }

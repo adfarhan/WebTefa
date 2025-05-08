@@ -13,6 +13,10 @@ class GaleriController extends Controller
     public function index()
     {
         //
+        $galeri = Galeri::all();
+        return view('backend.galeri.galeri',compact('galeri'),[
+            'title' => 'Galeri'
+        ]);
     }
 
     /**
@@ -21,6 +25,9 @@ class GaleriController extends Controller
     public function create()
     {
         //
+        return view('backend.galeri.crudgaleri.create',[
+            'title' => 'Tambah Data Galeri'
+        ]);
     }
 
     /**
@@ -29,6 +36,22 @@ class GaleriController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'nama_galeri' => 'required',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $gambarPath = null;
+        if ($request->hasFile('foto')) {
+            $gambarPath = $request->file('foto')->store('galeri_foto', 'public');
+        }
+
+        Galeri::create([
+            'nama_galeri' => $request->nama_galeri,
+            'foto' => $gambarPath
+        ]);
+
+        return redirect()->route('galeris.index')->with('success', 'Data galeri berhasil ditambahkan');
     }
 
     /**
@@ -37,6 +60,10 @@ class GaleriController extends Controller
     public function show(Galeri $galeri)
     {
         //
+        return view('backend.galeri.crudgaleri.show',compact('galeri'),[
+            'title' => 'Show Data Galeri'
+        ]);
+
     }
 
     /**
@@ -45,6 +72,10 @@ class GaleriController extends Controller
     public function edit(Galeri $galeri)
     {
         //
+        return view('backend.galeri.crudgaleri.edit',compact('galeri'),[
+            'title' => 'Edit Data Galeri'
+        ]);
+
     }
 
     /**
@@ -53,6 +84,20 @@ class GaleriController extends Controller
     public function update(Request $request, Galeri $galeri)
     {
         //
+        $request->validate([
+            'nama_galeri' => 'required|string|max:255',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $gambarPath = $request->file('foto')->store('galeri_foto', 'public');
+            $galeri->foto = $gambarPath;
+        }
+
+        $galeri->update([
+            'nama_galeri' => $request->nama_galeri,
+        ]);
+        return redirect()->route('galeris.index')->with('success', 'Data galeri berhasil diperbarui');
     }
 
     /**
@@ -60,6 +105,17 @@ class GaleriController extends Controller
      */
     public function destroy(Galeri $galeri)
     {
-        //
+        // Hapus gambar jika ada
+        if ($galeri->foto) {
+            $gambarPath = storage_path('app/public/' . $galeri->foto);
+            if (file_exists($gambarPath)) {
+                unlink($gambarPath);
+            }
+        }
+
+        // Hapus data program dari database
+        $galeri->delete();
+
+        return redirect()->route('galeris.index')->with('success', 'Data galeri dan gambar berhasil dihapus.');
     }
 }

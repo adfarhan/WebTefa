@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('nama');
             $table->integer('nip')->unique();
             $table->string('jabatan');
+            $table->string('foto');
+            $table->string('facebook');
+            $table->string('instagram');
+            $table->string('linkedin');
             $table->timestamps();
         });
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Organisasi;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class OrganisasiController extends Controller
 {
@@ -13,7 +15,9 @@ class OrganisasiController extends Controller
     public function index()
     {
         $organisasis = Organisasi::all();
-        return view('organisasi.index', compact('organisasis'));
+        return view('backend.profile.organisasi.organisasi',compact('organisasis'),[
+            'title' => 'Organisasi'
+        ]);
     }
 
     /**
@@ -21,7 +25,9 @@ class OrganisasiController extends Controller
      */
     public function create()
     {
-        return view('organisasi.create');
+        return view('backend.profile.organisasi.create',[
+            'title' => 'Tambah Data Organisasi'
+        ]);
     }
 
     /**
@@ -30,21 +36,39 @@ class OrganisasiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'=>'required',
-            'nip'=>'required|max:20',
-            'jabatan'=>'required',
-
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|integer|unique:organisasis,nip',
+            'jabatan' => 'required|string|max:255',
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'facebook' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'linkedin' => 'nullable|string',
         ]);
-        Organisasi::create($request->all());
-        return redirect()->route('organisasi.index')->with('success', 'Data Berhasil Ditambahkan');
+
+        $fotoPath = $request->file('foto')->store('organisasi', 'public');
+
+        Organisasi::create([
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'jabatan' => $request->jabatan,
+            'foto' => $fotoPath,
+            'facebook' => $request->facebook,
+            'instagram' => $request->instagram,
+            'linkedin' => $request->linkedin,
+        ]);
+
+        return redirect()->route('organisasis.index')->with('success', 'Data berhasil ditambahkan.');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(Organisasi $organisasi)
     {
-        return view('organisasi.show', compact('organisasi'));
+        return view('backend.profile.organisasi.show', compact('organisasi'),[
+            'title' => 'Show Data Organisasi'
+        ]);
     }
 
     /**
@@ -52,7 +76,9 @@ class OrganisasiController extends Controller
      */
     public function edit(Organisasi $organisasi)
     {
-        return view('organisasi.edit', compact('organisasi'));
+        return view('backend.profile.organisasi.edit', compact('organisasi'),[
+            'title' => 'Edit Data Organisasi'
+        ]);
     }
 
     /**
@@ -61,21 +87,47 @@ class OrganisasiController extends Controller
     public function update(Request $request, Organisasi $organisasi)
     {
         $request->validate([
-            'nama'=>'required',
-            'nip'=>'required|max:20',
-            'jabatan'=>'required',
-
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|integer|unique:organisasis,nip,' . $organisasi->id,
+            'jabatan' => 'required|string|max:255',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'facebook' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'linkedin' => 'nullable|string',
         ]);
-        $organisasi->update($request->all());
-        return redirect()->route('organisasi.index')->with('success', 'Data Berhasil Dihapus');
+
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama
+            if ($organisasi->foto && Storage::disk('public')->exists($organisasi->foto)) {
+                Storage::disk('public')->delete($organisasi->foto);
+            }
+            $fotoPath = $request->file('foto')->store('organisasi', 'public');
+            $organisasi->foto = $fotoPath;
+        }
+
+        $organisasi->update([
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'jabatan' => $request->jabatan,
+            'facebook' => $request->facebook,
+            'instagram' => $request->instagram,
+            'linkedin' => $request->linkedin,
+        ]);
+
+        return redirect()->route('organisasis.index')->with('success', 'Data berhasil diupdate.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Organisasi $organisasi)
     {
+        if ($organisasi->foto && Storage::disk('public')->exists($organisasi->foto)) {
+            Storage::disk('public')->delete($organisasi->foto);
+        }
+
         $organisasi->delete();
-        return redirect()->route('organisasi.index')->with('success', 'Data Berhasil Dihapus');
+        return redirect()->route('organisasis.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

@@ -13,4 +13,9 @@ class Produk extends Model
         'deskripsi',
         'harga',
     ];
+
+    public function gambars()
+    {
+        return $this->hasMany(ProdukGambar::class);
+    }
 }

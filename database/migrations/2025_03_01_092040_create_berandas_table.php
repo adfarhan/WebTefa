@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('berandas', function (Blueprint $table) {
             $table->id();
-            $table->string('gambaran_umum');
-            $table->string('keunggulan');
-            $table->string('manfaat');
+            $table->string('judul');
+            $table->string('pekat');
+            $table->string('logo');
             $table->timestamps();
         });
     }

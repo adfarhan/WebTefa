@@ -12,8 +12,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profiles = Profile::all();
-        return view('profile.index', compact('profiles'));
+        $profile = Profile::all();
+        return view('backend.profile.crudsejarah.sejarah', compact('profile'),[
+            'title' => 'Profile Sejarah'
+        ]);
     }
 
     /**
@@ -21,7 +23,9 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return view('profile.create');
+        return view('backend.profile.crudsejarah.create',[
+            'title' => 'Tambah Data Sejarah'
+        ]);
     }
 
     /**
@@ -42,7 +46,9 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        return view('profile.show', compact('profile'));
+        return view('backend.profile.crudsejarah.show',compact('profile'),[
+            'title' => 'Show Data Sejarah'
+        ]);
     }
 
     /**
@@ -50,7 +56,9 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        return view('profile.edit', compact('profile'));
+        return view('backend.profile.crudsejarah.edit',compact('profile'),[
+            'title' => 'Edit Data Sejarah'
+        ]);
     }
 
     /**

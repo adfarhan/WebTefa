@@ -25,6 +25,7 @@
   --accent-color: #0d83fd; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  --kuning-color: #ffe83e; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
@@ -168,8 +169,8 @@ h6 {
 }
 
 .header .logo img {
-  max-height: 36px;
-  margin-right: 8px;
+  max-height: 50px;
+  margin-right: 15px;
 }
 
 .header .logo h1 {
@@ -245,7 +246,7 @@ h6 {
 
   .navmenu a,
   .navmenu a:focus {
-    color: var(--nav-color);
+    color: var(--default-color);
     padding: 18px 15px;
     font-size: 16px;
     font-family: var(--nav-font);
@@ -272,7 +273,7 @@ h6 {
   .navmenu li:hover>a,
   .navmenu .active,
   .navmenu .active:focus {
-    color: var(--nav-hover-color);
+    color: var(--heading-color);
   }
 
   .navmenu .dropdown ul {
@@ -309,7 +310,7 @@ h6 {
   .navmenu .dropdown ul a:hover,
   .navmenu .dropdown ul .active:hover,
   .navmenu .dropdown ul li:hover>a {
-    color: var(--nav-dropdown-hover-color);
+    color: var(--default-color);
   }
 
   .navmenu .dropdown:hover>ul {
@@ -576,6 +577,8 @@ h6 {
   font-size: 13px;
 }
 
+
+
 /*--------------------------------------------------------------
 # Scroll Top Button
 --------------------------------------------------------------*/
@@ -716,10 +719,26 @@ section,
 # Hero Section
 --------------------------------------------------------------*/
 .hero {
-  position: relative;
-  padding-top: 160px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent-color), transparent 95%) 50%, color-mix(in srgb, var(--accent-color), transparent 98%) 25%, transparent 50%);
-}
+    position: relative;
+    padding-top: 160px;
+    background-color: #f6f6f6;
+    background-image: radial-gradient(#ced6e0 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+/* .hero {
+    position: relative;
+    padding-top: 160px;
+    background: linear-gradient(-45deg, #007bff, #6610f2, #0dcaf0, #6f42c1);
+    background-size: 400% 400%;
+    animation: waveBG 10s ease infinite;
+  }
+
+  @keyframes waveBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  } */
 
 .hero::before {
   content: "";
@@ -728,7 +747,7 @@ section,
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--accent-color), transparent 92%), transparent 40%);
+  background: radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--kuning-color), transparent 92%), transparent 40%);
   pointer-events: none;
 }
 
@@ -738,14 +757,15 @@ section,
 }
 
 .hero .hero-content h1 {
-  font-size: 3.5rem;
+  font-size: 2.7rem;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1.5rem;
+  text-shadow: 0.5px 1px 0.3px #000;
 }
 
 .hero .hero-content h1 .accent-text {
-  color: var(--accent-color);
+  color: #ffe83e;
 }
 
 @media (max-width: 992px) {
@@ -821,7 +841,7 @@ section,
 }
 
 .hero .hero-image img {
-  max-width: 100%;
+  max-width: 50%;
   height: auto;
 }
 
@@ -1269,61 +1289,68 @@ section,
   --default-color: #555;
   --heading-color: #333;
 }
-
 .features-cards .feature-box {
-  height: 100%;
-  padding: 40px 30px;
-  border-radius: 10px;
-}
+    padding: 40px 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Jaga jarak antar elemen (ikon, judul, teks) */
+    height: auto; /* Biarkan tinggi box sesuai dengan konten */
+    min-height: 250px; /* Menetapkan tinggi minimum agar box tidak terlalu kecil */
+  }
 
-.features-cards .feature-box i {
-  font-size: 44px;
-  display: inline-block;
-  line-height: 0;
-  color: var(--accent-color);
-  margin-bottom: 20px;
-}
+  .features-cards .feature-box i {
+    font-size: 44px;
+    display: inline-block;
+    line-height: 0;
+    color: var(--accent-color);
+    margin-bottom: 20px; /* Memberikan jarak dengan judul */
+  }
 
-.features-cards .feature-box h4 {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0 0 10px 0;
-}
+  .features-cards .feature-box h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 15px 0; /* Menambah jarak bawah antara judul dan teks */
+  }
 
-.features-cards .feature-box p {
-  font-size: 15px;
-  margin-bottom: 0;
-}
+  .features-cards .feature-box p {
+    font-size: 15px;
+    margin-bottom: 0;
+    white-space: normal; /* Pastikan teks membungkus ke bawah */
+    text-align: justify; /* Menyusun teks rata kiri-kanan */
+    overflow: hidden; /* Pastikan teks tidak meluap keluar */
+  }
 
-.features-cards .feature-box.orange {
+
+  .keunggulan-cards .keunggulan-box.orange {
   background-color: #fff3e2;
 }
 
-.features-cards .feature-box.orange i {
+.keunggulan-cards .keunggulan-box.orange i {
   color: #edb86e;
 }
 
-.features-cards .feature-box.blue {
+.keunggulan-cards .keunggulan-box.blue {
   background-color: #deedfd;
 }
 
-.features-cards .feature-box.blue i {
+.keunggulan-cards .keunggulan-box.blue i {
   color: #20a5f8;
 }
 
-.features-cards .feature-box.green {
+.keunggulan-cards .keunggulan-box.green {
   background-color: #d5f1e4;
 }
 
-.features-cards .feature-box.green i {
+.keunggulan-cards .keunggulan-box.green i {
   color: #48c88a;
 }
 
-.features-cards .feature-box.red {
+.keunggulan-cards .keunggulan-box.red {
   background-color: #fdeded;
 }
 
-.features-cards .feature-box.red i {
+.keunggulan-cards .keunggulan-box.red i {
   color: #f28484;
 }
 
@@ -2038,15 +2065,15 @@ section,
 # Contact Section
 --------------------------------------------------------------*/
 .contact .info-box {
-  background-color: var(--accent-color);
-  color: var(--contrast-color);
+  background-color: var(--contrast-color);
+  color: var(--default-color);
   padding: 3rem;
   border-radius: 1rem;
   height: 100%;
 }
 
 .contact .info-box h3 {
-  color: var(--contrast-color);
+  color: var(--default-color);
   font-size: 2rem;
   margin-bottom: 1rem;
 }
@@ -2173,7 +2200,7 @@ section,
   background-color: var(--accent-color);
   color: var(--contrast-color);
   padding: 1rem 2rem;
-  border-radius: 2rem;
+  border-radius: 0.7rem;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -2328,9 +2355,8 @@ section,
 
 /*sejarahh*/
 #sejarah-tefa {
-    padding: 50px 20px;
-    background-color: #f8f9fa;
-    padding-top: 130px;
+    /* background-color: #f8f9fa; */
+    padding: 120px 0;
 }
 #sejarah-tefa .container {
     max-width: 1100px;
@@ -2345,7 +2371,7 @@ section,
     gap: 30px;
     flex-wrap: wrap;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: #fff;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -2356,7 +2382,7 @@ section,
 #sejarah-tefa .content .image img {
     width: 320px;
     border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); */
     transition: transform 0.3s ease-in-out;
 }
 
@@ -2380,10 +2406,21 @@ section,
     margin-bottom: 15px;
 }
 
+#sejarah-tefa .content .text p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+    text-indent: 20px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+
  /* Styling Umum */
  #struktur-tefa.struktur-section {
     padding: 80px 20px;
-    background: var(--default-color);
+    background: var(--heading-color);
     color: white;
     text-align: center;
 }
@@ -2429,7 +2466,7 @@ section,
     object-fit: cover;
     display: block;
     margin-bottom: 15px;
-    border: 3px solid #ffcc00; /* Menambahkan border agar lebih elegan */
+    border: 3px solid #dbdbdb; /* Menambahkan border agar lebih elegan */
 }
 
 /* Nama */

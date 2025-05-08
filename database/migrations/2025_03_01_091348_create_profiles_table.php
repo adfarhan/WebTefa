@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('sejarah');
-            $table->string('latar_nelakang');
+            $table->string('latar_belakang');
             $table->timestamps();
         });
     }

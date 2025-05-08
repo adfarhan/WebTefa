@@ -3,63 +3,68 @@
 namespace App\Http\Controllers;
 
 use App\Models\Misi;
+use App\Models\Visi;
 use Illuminate\Http\Request;
 
 class MisiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $visi = Visi::all();
+        return view('backend.beranda.misidanvisi', compact('visi'),[
+            'title'=> 'Tambah Data Misi'
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'misi' => 'required',
+            'visi_id' => 'required|exists:visis,id'
+        ]);
+
+        Misi::create($request->all());
+        return redirect()->route('visi.misi')->with('success', 'Misi berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Misi $misi)
     {
-        //
+        $visi = Visi::all();
+        return view('backend.beranda.crudmisi.show', compact('misi', 'visi'),[
+            'title' => 'Show Data Misi Visi'
+        ]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(Misi $misi)
     {
-        //
+        $visi = Visi::all(); // Ambil semua visi untuk dropdown
+
+        return view('backend.beranda.crudmisi.edit', compact('misi', 'visi'), [
+            'title' => 'Edit Data Misi'
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
+
     public function update(Request $request, Misi $misi)
     {
-        //
+        $request->validate([
+            'misi' => 'required',
+            'visi_id' => 'required|exists:visis,id'
+        ]);
+
+        $misi->update($request->all());
+        return redirect()->route('visi.misi')->with('success', 'Misi berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Misi $misi)
     {
-        //
+        $misi->delete();
+        return redirect()->route('visi.misi')->with('success', 'Misi berhasil dihapus.');
     }
 }

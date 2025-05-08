@@ -7,59 +7,71 @@ use Illuminate\Http\Request;
 
 class KontakController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $kontaks = Kontak::all();
+        return view('backend.medsos.media', compact('kontaks'),[
+            'title' => 'Media Sosial'
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('backend.medsos.create',[
+            'title' => 'Tambah Data Medsos'
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email',
+            'nomor_telepon' => 'required',
+            'instagram' => 'required',
+            'facebook' => 'required',
+            'twitter' => 'required',
+            'tiktok' => 'required',
+            'youtube' => 'required',
+        ]);
+
+        Kontak::create($request->all());
+
+        return redirect()->route('kontaks.index')->with('success', 'Kontak berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Kontak $kontak)
+    public function edit($id)
     {
-        //
+        $kontak = Kontak::findOrFail($id);
+        return view('backend.medsos.edit', compact('kontak'),[
+            'title' => 'Edit Medsos'
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Kontak $kontak)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email',
+            'nomor_telepon' => 'required',
+            'instagram' => 'required',
+            'facebook' => 'required',
+            'twitter' => 'required',
+            'tiktok' => 'required',
+            'youtube' => 'required',
+        ]);
+
+        $kontak = Kontak::findOrFail($id);
+        $kontak->update($request->all());
+
+        return redirect()->route('kontaks.index')->with('success', 'Kontak berhasil diperbarui.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Kontak $kontak)
+    public function destroy($id)
     {
-        //
-    }
+        $kontak = Kontak::findOrFail($id);
+        $kontak->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Kontak $kontak)
-    {
-        //
+        return redirect()->route('kontaks.index')->with('success', 'Kontak berhasil dihapus.');
     }
 }

@@ -10,21 +10,26 @@ class KontakController extends Controller
     public function index()
     {
         $kontaks = Kontak::all();
+
         return view('backend.medsos.media', compact('kontaks'),[
             'title' => 'Media Sosial'
         ]);
+
     }
 
     public function create()
     {
+
         return view('backend.medsos.create',[
             'title' => 'Tambah Data Medsos'
         ]);
+
     }
 
     public function store(Request $request)
     {
         $request->validate([
+
             'nama' => 'required',
             'email' => 'required|email',
             'nomor_telepon' => 'required',
@@ -38,18 +43,22 @@ class KontakController extends Controller
         Kontak::create($request->all());
 
         return redirect()->route('kontaks.index')->with('success', 'Kontak berhasil ditambahkan.');
+
     }
 
     public function edit($id)
     {
+
         $kontak = Kontak::findOrFail($id);
         return view('backend.medsos.edit', compact('kontak'),[
             'title' => 'Edit Medsos'
         ]);
+
     }
 
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email',
@@ -65,10 +74,12 @@ class KontakController extends Controller
         $kontak->update($request->all());
 
         return redirect()->route('kontaks.index')->with('success', 'Kontak berhasil diperbarui.');
+
     }
 
     public function destroy($id)
     {
+
         $kontak = Kontak::findOrFail($id);
         $kontak->delete();
 

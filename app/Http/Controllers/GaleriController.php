@@ -12,11 +12,13 @@ class GaleriController extends Controller
      */
     public function index()
     {
+
         //
         $galeri = Galeri::all();
         return view('backend.galeri.galeri',compact('galeri'),[
             'title' => 'Galeri'
         ]);
+
     }
 
     /**
@@ -24,10 +26,12 @@ class GaleriController extends Controller
      */
     public function create()
     {
+
         //
         return view('backend.galeri.crudgaleri.create',[
             'title' => 'Tambah Data Galeri'
         ]);
+
     }
 
     /**
@@ -35,6 +39,7 @@ class GaleriController extends Controller
      */
     public function store(Request $request)
     {
+
         //
         $request->validate([
             'nama_galeri' => 'required',
@@ -52,6 +57,7 @@ class GaleriController extends Controller
         ]);
 
         return redirect()->route('galeris.index')->with('success', 'Data galeri berhasil ditambahkan');
+
     }
 
     /**
@@ -59,6 +65,7 @@ class GaleriController extends Controller
      */
     public function show(Galeri $galeri)
     {
+
         //
         return view('backend.galeri.crudgaleri.show',compact('galeri'),[
             'title' => 'Show Data Galeri'
@@ -71,10 +78,12 @@ class GaleriController extends Controller
      */
     public function edit(Galeri $galeri)
     {
+
         //
         return view('backend.galeri.crudgaleri.edit',compact('galeri'),[
             'title' => 'Edit Data Galeri'
         ]);
+
 
     }
 
@@ -83,6 +92,7 @@ class GaleriController extends Controller
      */
     public function update(Request $request, Galeri $galeri)
     {
+
         //
         $request->validate([
             'nama_galeri' => 'required|string|max:255',
@@ -98,6 +108,7 @@ class GaleriController extends Controller
             'nama_galeri' => $request->nama_galeri,
         ]);
         return redirect()->route('galeris.index')->with('success', 'Data galeri berhasil diperbarui');
+
     }
 
     /**
@@ -105,6 +116,7 @@ class GaleriController extends Controller
      */
     public function destroy(Galeri $galeri)
     {
+
         // Hapus gambar jika ada
         if ($galeri->foto) {
             $gambarPath = storage_path('app/public/' . $galeri->foto);
@@ -117,5 +129,6 @@ class GaleriController extends Controller
         $galeri->delete();
 
         return redirect()->route('galeris.index')->with('success', 'Data galeri dan gambar berhasil dihapus.');
+
     }
 }

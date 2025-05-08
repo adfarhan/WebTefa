@@ -14,11 +14,13 @@ class BerandaController extends Controller
      */
     public function index()
     {
+
         //
         $landing = Beranda::all();
         return view('backend.beranda.landingberanda', compact('landing'),[
             'title' => 'Landing'
         ]);
+
     }
 
     /**
@@ -26,10 +28,12 @@ class BerandaController extends Controller
      */
     public function create()
     {
+
         //
         return view('backend.beranda.crudlanding.create', [
             'title' => 'Tambah Data Landing'
         ]);
+
     }
 
     /**
@@ -38,6 +42,7 @@ class BerandaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+
             'judul' => 'required',
             'pekat' => 'required',
             'logo' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
@@ -62,21 +67,26 @@ class BerandaController extends Controller
      */
     public function show(Beranda $landing)
     {
+
         return view('backend.beranda.crudlanding.show', compact('landing'), [
             'title' => 'Show Data Landing'
         ]);
+
     }
 
     public function edit(Beranda $landing)
     {
+
         return view('backend.beranda.crudlanding.edit', compact('landing'), [
             'title' => 'Edit Data Landing'
         ]);
+
     }
 
     public function update(Request $request, Beranda $landing)
     {
         $request->validate([
+
             'judul' => 'required',
             'pekat' => 'required',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
@@ -105,6 +115,7 @@ class BerandaController extends Controller
 
     public function destroy(Beranda $landing)
     {
+
         // Hapus file logo
         if ($landing->logo && Storage::disk('public')->exists($landing->logo)) {
             Storage::disk('public')->delete($landing->logo);
@@ -114,5 +125,6 @@ class BerandaController extends Controller
 
         return redirect()->route('landing.index')->with('success', 'Data Beranda Berhasil Dihapus');
     }
+
 
     }
